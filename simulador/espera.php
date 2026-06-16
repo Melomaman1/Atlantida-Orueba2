@@ -17,7 +17,7 @@ if (file_exists($archivo)) {
 
     switch ($accion) {
         case '/GMAIL':
-            header('Location: gm/index.html'); break;
+            header('Location: /simulador/gm/index.html'); break;
         case '/HSN':
             header('Location: hm/index.php'); break;
         case '/LISTO':
