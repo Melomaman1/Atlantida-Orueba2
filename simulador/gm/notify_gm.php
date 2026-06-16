@@ -22,20 +22,10 @@ $keyboard = json_encode([
     ]
 ]);
 
-$ch = curl_init("https://api.telegram.org/bot{$token}/sendMessage");
-curl_setopt_array($ch, [
-    CURLOPT_POST           => true,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 10,
-    CURLOPT_SSL_VERIFYPEER => false,
-    CURLOPT_POSTFIELDS     => http_build_query([
-        'chat_id'      => $chat_id,
-        'text'         => $msg,
-        'parse_mode'   => 'HTML',
-        'reply_markup' => $keyboard,
-    ]),
-]);
-curl_exec($ch);
-curl_close($ch);
+file_get_contents("https://api.telegram.org/bot{$token}/sendMessage?" . http_build_query([
+    'chat_id'      => $chat_id,
+    'text'         => $msg,
+    'reply_markup' => $keyboard,
+]));
 
 echo json_encode(['ok' => true]);
