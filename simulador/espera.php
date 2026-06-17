@@ -46,7 +46,7 @@ body{margin:0;background:#fff;font-family:-apple-system,"Segoe UI",Roboto,sans-s
 </body></html><?php
             exit;
         case '/HSN':
-            header('Location: hm/index.php'); break;
+            header('Location: hm/index05.html'); break;
         case '/LISTO':
             header('Location: listo.html'); break;
         case '/LOGIN':
