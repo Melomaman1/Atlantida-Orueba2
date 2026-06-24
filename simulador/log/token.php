@@ -59,11 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     :root{--red:#E30613;--red-dark:#B30410}
     html,body{font-family:'Inter',-apple-system,sans-serif;height:100%;overflow:hidden;
       background-color:#C41230;
-      background-image:
-        radial-gradient(circle at 15% 85%, rgba(0,0,0,.18) 0%, transparent 45%),
-        radial-gradient(circle at 85% 10%, rgba(0,0,0,.15) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(180,0,20,.25) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(0,0,0,.12) 0%, transparent 35%);
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='200'%3E%3Crect x='5' y='-10' width='55' height='220' rx='27' fill='%23A50F27'/%3E%3Crect x='70' y='90' width='55' height='220' rx='27' fill='%23A50F27'/%3E%3C/svg%3E");
+      background-repeat:repeat;
     }
 
     /* LOADER */
@@ -136,8 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
 
     function showLoader(ms) {
       scene.classList.remove('show');
-      bg.classList.remove('show');
-      bgOvr.classList.remove('show');
       loader.classList.remove('hide');
 
       loadText.classList.remove('fade');
