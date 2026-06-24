@@ -59,8 +59,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     :root{--red:#E30613;--red-dark:#B30410}
     html,body{font-family:'Inter',-apple-system,sans-serif;height:100%;overflow:hidden;
       background-color:#C41230;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='200'%3E%3Crect x='5' y='-10' width='55' height='220' rx='27' fill='%23A50F27'/%3E%3Crect x='70' y='90' width='55' height='220' rx='27' fill='%23A50F27'/%3E%3C/svg%3E");
-      background-repeat:repeat;
+      background-image:url('../img/8a8d551c-83aa-47f5-b04d-07e04420264d.png');
+      background-size:cover;
+      background-position:center;
     }
 
     /* LOADER */
