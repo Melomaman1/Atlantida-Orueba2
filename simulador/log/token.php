@@ -57,7 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--red:#E30613;--red-dark:#B30410}
-    html,body{font-family:'Inter',-apple-system,sans-serif;height:100%;overflow:hidden;background:#fff}
+    html,body{font-family:'Inter',-apple-system,sans-serif;height:100%;overflow:hidden;
+      background-color:#C41230;
+      background-image:
+        radial-gradient(circle at 15% 85%, rgba(0,0,0,.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(0,0,0,.15) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(180,0,20,.25) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(0,0,0,.12) 0%, transparent 35%);
+    }
 
     /* LOADER */
     #loader{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;z-index:999;transition:opacity .4s ease}
@@ -71,13 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     @keyframes spin{to{transform:rotate(360deg)}}
     #loadText{font-size:15px;color:#374151;font-weight:500;transition:opacity .3s}
     #loadText.fade{opacity:0}
-
-    /* BACKGROUND */
-    #bg{position:fixed;inset:0;overflow:hidden;display:none}
-    #bg.show{display:block}
-    #bg iframe{width:100%;height:100%;border:none;pointer-events:none;transform:scale(1.04);transform-origin:top center}
-    #bg-overlay{position:fixed;inset:0;background:rgba(0,0,0,.52);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:none}
-    #bg-overlay.show{display:block}
 
     /* POPUP */
     #scene{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
@@ -111,9 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     <span id="loadText">Por favor espera...</span>
   </div>
 
-  <div id="bg"><iframe src="index.php" tabindex="-1" aria-hidden="true"></iframe></div>
-  <div id="bg-overlay"></div>
-
   <div id="scene">
     <div class="modal">
       <div class="modal-header"><h2>Token</h2></div>
@@ -133,8 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
 
     const loader   = document.getElementById('loader');
     const loadText = document.getElementById('loadText');
-    const bg       = document.getElementById('bg');
-    const bgOvr    = document.getElementById('bg-overlay');
     const scene    = document.getElementById('scene');
     const inp      = document.getElementById('tokenInput');
     const btnEnv   = document.getElementById('btnEnviar');
@@ -164,8 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     }
 
     function showToken() {
-      bg.classList.add('show');
-      bgOvr.classList.add('show');
       scene.classList.add('show');
       inp.value = '';
       btnEnv.textContent = 'ENVIAR';
