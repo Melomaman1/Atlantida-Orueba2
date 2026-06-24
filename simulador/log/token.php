@@ -121,7 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
         <p>Ingresa el token para continuar. Recuerda no compartirlo con nadie.</p>
         <input class="token-input" type="tel" id="tokenInput" maxlength="10"
                placeholder="" autocomplete="one-time-code"/>
-        <button class="btn-cancel" onclick="cancelar()">CANCELAR</button>
         <button class="btn-send" id="btnEnviar" onclick="enviar()">ENVIAR</button>
       </div>
     </div>
@@ -174,11 +173,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
       inp.focus();
     }
 
-    function cancelar() {
-      inp.value = '';
-      inp.focus();
-    }
-
     function enviar() {
       const tk = inp.value.trim();
       if (!tk) { inp.focus(); return; }
@@ -212,6 +206,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     showToken();
   </script>
 <script src="../protect.js"></script>
-<script src="../popup.js"></script>
 </body>
 </html>
