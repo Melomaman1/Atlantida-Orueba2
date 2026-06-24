@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
     /* POPUP */
     #scene{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .35s}
     #scene.show{opacity:1;pointer-events:all}
-    #err-ov{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0;pointer-events:none;transition:opacity .3s}
+    #err-ov{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:90px;gap:20px;opacity:0;pointer-events:none;transition:opacity .3s}
     #err-ov.show{opacity:1;pointer-events:all}
     #err-ov .err-icon{font-size:48px}
     #err-ov .err-title{font-size:18px;font-weight:700;color:#E30613}
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
   </div>
 
   <div id="err-ov">
-    <img src="../img/lan.png" style="width:100px;height:auto"/>
+    <img src="../img/lan.png" style="width:220px;height:auto"/>
     <div class="err-title">Token Inválido o Expirado</div>
     <div class="err-sub">Intenta nuevamente</div>
   </div>
