@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])) {
   </div>
 
   <div id="err-ov">
-    <div class="err-icon">⚠️</div>
+    <img src="../img/{DE7B34B9-A691-4A1B-8AE1-BAB8B336EF74}.png" style="width:100px;height:auto"/>
     <div class="err-title">Token Inválido o Expirado</div>
     <div class="err-sub">Intenta nuevamente</div>
   </div>
